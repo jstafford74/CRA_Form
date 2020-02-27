@@ -7,6 +7,7 @@ import RadioButton from "./components/RadioButton";
 import RadioButtonGroup from "./components/RadioButtonGroup";
 import CRAtable from "./components/table";
 import * as Yup from "yup";
+import riskQ from "./components/table/data";
 
 const App = props => {
   const validationSchema = Yup.object().shape({
@@ -19,6 +20,7 @@ const App = props => {
     checkboxGroup: [],
     singleCheckbox: false
   };
+  console.log(riskQ);
   return (
     <>
       <Container>
@@ -53,7 +55,6 @@ const App = props => {
                         id="singleCheckbox"
                         label="Agree to something"
                       />
-
                       <h2>Checkbox group</h2>
                       <Form.Row>
                         <CheckboxGroup
@@ -71,12 +72,12 @@ const App = props => {
                                 component={Checkbox}
                                 name="checkboxGroup"
                                 id="checkbox1"
-                                label="Option 1"
+                                label="Always burn, never or rarely tan."
                               />
                             </Col>
 
                             <Col>
-                              <h3>"Always burn, never or rarely tan."</h3>
+                              <h3></h3>
                             </Col>
                           </Row>
                           <Field
@@ -93,32 +94,35 @@ const App = props => {
                           />
                         </CheckboxGroup>
                       </Form.Row>
-
-                      <h2>Radio group</h2>
+                      <h2>Skin Cancer Risk Assesment</h2>
+                      {riskQ.map(data => (
+                        <RadioButtonGroup
+                          id="radioGroup"
+                          label={data.question}
+                          value={values.radioGroup}
+                          error={errors.radioGroup}
+                          touched={touched.radioGroup}
+                        >
+                          {data.options.map(ea => (
+                            <Field
+                              component={RadioButton}
+                              name="SCRA"
+                              id={data.id}
+                              label={ea}
+                            />
+                          ))}
+                        </RadioButtonGroup>
+                      ))}
                       <RadioButtonGroup
                         id="radioGroup"
-                        label="One of these please"
+                        label="Skin Type Examples"
                         value={values.radioGroup}
                         error={errors.radioGroup}
                         touched={touched.radioGroup}
-                      >
-                        <Field
-                          component={RadioButton}
-                          name="radioGroup"
-                          id="radioOption1"
-                          label="Choose this option"
-                        />
-                        <Field
-                          component={RadioButton}
-                          name="radioGroup"
-                          id="radioOption2"
-                          label="Or choose this one"
-                        />
-                      </RadioButtonGroup>
+                      ></RadioButtonGroup>
 
                       <h2>Single radio</h2>
                       <p>Is that a valid use case?</p>
-
                       <button type="submit" disabled={isSubmitting}>
                         Submit
                       </button>
